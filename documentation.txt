@@ -1,0 +1,14 @@
+//           group members
+//    Olani    Shambel    ugr/31097/15
+//    Samuel   Tesfachew  ugr/31190/15
+//    Yeabsira zarihun    ugr/31384/15
+//    Kenenisa mekonen    ugr/30771/15
+//    Israel   bekela     ugr/30715/15
+
+/*   This a semister project for advanced java course done in servlet,jdbc concept using
+     1. MYSQL database
+     2. Netbeans IDE
+     3. Apache Tomcat server
+     4. Maven Framework
+     5. java servet api with tag library of jakarta servlet jstl. */
+
