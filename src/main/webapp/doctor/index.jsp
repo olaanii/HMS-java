@@ -1,55 +1,79 @@
 <%@page import="com.entity.Doctor"%>
 <%@page import="com.db.DBConnect"%>
 <%@page import="com.dao.DoctorDao"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page isELIgnored="false"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-<style type="text/css">
-.paint-card {
-	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-}
-</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doctor Dashboard - Healthcare HMS</title>
 <%@include file="../component/allcss.jsp"%>
 </head>
 <body>
-	<c:if test="${empty doctObj }">
+	<c:if test="${empty doctObj}">
 		<c:redirect url="../doctor_login.jsp"></c:redirect>
 	</c:if>
 
-
 	<%@include file="navbar.jsp"%>
-
-	<p class="text-center fs-3">Doctor Dashboard</p>
 
 	<%
 	Doctor d = (Doctor) session.getAttribute("doctObj");
 	DoctorDao dao = new DoctorDao(DBConnect.getConn());
 	%>
-	<div class="container p-5">
-		<div class="row">
-			<div class="col-md-4 offset-md-2">
-				<div class="card paint-card">
-					<div class="card-body text-center text-success">
-						<i class="fas fa-user-md fa-3x"></i><br>
-						<p class="fs-4 text-center">
-							Doctor <br><%=dao.countDoctor()%>
-						</p>
+
+	<div class="hms-dashboard">
+		<div class="container-fluid px-4">
+			<div class="hms-dashboard-header">
+				<h4 class="hms-page-title">Welcome, Dr. ${doctObj.fullName}</h4>
+				<p class="text-muted mb-0">Your doctor dashboard overview</p>
+			</div>
+
+			<div class="row g-4 mb-4">
+				<div class="col-md-4">
+					<div class="hms-stat-card stat-green">
+						<div class="stat-icon">
+							<i class="fas fa-user-md"></i>
+						</div>
+						<div class="stat-number"><%=dao.countDoctor()%></div>
+						<div class="stat-label">Total Doctors</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="hms-stat-card stat-amber">
+						<div class="stat-icon">
+							<i class="fas fa-calendar-check"></i>
+						</div>
+						<div class="stat-number"><%=dao.countAppointmentByDocotrId(d.getId())%></div>
+						<div class="stat-label">My Appointments</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="hms-stat-card stat-blue">
+						<div class="stat-icon">
+							<i class="fas fa-stethoscope"></i>
+						</div>
+						<div class="stat-number">${doctObj.specialist}</div>
+						<div class="stat-label" style="font-size:0.8rem">Specialization</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-4">
-				<div class="card paint-card">
-					<div class="card-body text-center text-success">
-						<i class="far fa-calendar-check fa-3x"></i><br>
-						<p class="fs-4 text-center">
-							Total Appointment <br>
-							<%=dao.countAppointmentByDocotrId(d.getId())%>
-						</p>
+
+			<div class="row g-4">
+				<div class="col-lg-6">
+					<div class="hms-card">
+						<div class="card-body">
+							<h6 class="fw-bold mb-3"><i class="fas fa-lightbulb me-2 text-warning"></i> Quick Actions</h6>
+							<div class="d-flex flex-wrap gap-2">
+								<a href="patient.jsp" class="hms-btn hms-btn-primary hms-btn-sm">
+									<i class="fas fa-procedures"></i> View Patients
+								</a>
+								<a href="edit_profile.jsp" class="hms-btn hms-btn-outline hms-btn-sm">
+									<i class="fas fa-user-edit"></i> Edit Profile
+								</a>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -4,110 +4,108 @@
 <%@page import="java.util.List"%>
 <%@page import="com.db.DBConnect"%>
 <%@page import="com.dao.SpecialistDao"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page isELIgnored="false"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Doctor - Healthcare HMS</title>
 <%@include file="../component/allcss.jsp"%>
-<style type="text/css">
-.paint-card {
-	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-}
-</style>
 </head>
 <body>
 	<%@include file="navbar.jsp"%>
-	<div class="container-fluid p-3">
-		<div class="row">
 
-			<div class="col-md-4 offset-md-4">
-				<div class="card paint-card">
-					<div class="card-body">
-						<p class="fs-3 text-center">Edit Doctor Details</p>
-						<c:if test="${not empty errorMsg}">
-							<p class="fs-3 text-center text-danger">${errorMsg}</p>
-							<c:remove var="errorMsg" scope="session" />
-						</c:if>
-						<c:if test="${not empty succMsg}">
-							<div class="fs-3 text-center text-success" role="alert">${succMsg}</div>
-							<c:remove var="succMsg" scope="session" />
-						</c:if>
+	<c:if test="${empty adminObj}">
+		<c:redirect url="../admin_login.jsp"></c:redirect>
+	</c:if>
 
-						<%
-						int id = Integer.parseInt(request.getParameter("id"));
-						DoctorDao dao2 = new DoctorDao(DBConnect.getConn());
-						Doctor d = dao2.getDoctorById(id);
-						%>
+	<%
+	int id = Integer.parseInt(request.getParameter("id"));
+	DoctorDao dao2 = new DoctorDao(DBConnect.getConn());
+	Doctor d = dao2.getDoctorById(id);
+	%>
 
+	<div class="hms-content">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-7">
+					<div class="hms-form-card">
+						<div class="card-body">
+							<p class="hms-form-title"><i class="fas fa-user-edit me-2"></i> Edit Doctor Details</p>
 
-						<form action="../updateDoctor" method="post">
-							<div class="mb-3">
-								<label class="form-label">Full Name</label> <input type="text"
-									required name="fullname" class="form-control"
-									value="<%=d.getFullName()%>">
-							</div>
+							<c:if test="${not empty errorMsg}">
+								<div class="hms-alert hms-alert-danger">${errorMsg}</div>
+								<c:remove var="errorMsg" scope="session" />
+							</c:if>
+							<c:if test="${not empty succMsg}">
+								<div class="hms-alert hms-alert-success">${succMsg}</div>
+								<c:remove var="succMsg" scope="session" />
+							</c:if>
 
-							<div class="mb-3">
-								<label class="form-label">DOB</label> <input type="date"
-									value="<%=d.getDob()%>" required name="dob"
-									class="form-control">
-							</div>
-
-							<div class="mb-3">
-								<label class="form-label">Qualification</label> <input required
-									value="<%=d.getQualification()%>" name="qualification"
-									type="text" class="form-control">
-							</div>
-							<div class="mb-3">
-								<label class="form-label">Specialist</label> <select name="spec"
-									required class="form-control">
-									<option><%=d.getSpecialist()%></option>
-
-									<%
-									SpecialistDao dao = new SpecialistDao(DBConnect.getConn());
-									List<Specalist> list = dao.getAllSpecialist();
-									for (Specalist s : list) {
-									%>
-									<option><%=s.getSpecialistName()%></option>
-									<%
-									}
-									%>
-
-
-								</select>
-							</div>
-
-							<div class="mb-3">
-								<label class="form-label">Email</label> <input type="text"
-									value="<%=d.getEmail()%>" required name="email"
-									class="form-control">
-							</div>
-
-							<div class="mb-3">
-								<label class="form-label">Mob No</label> <input type="text"
-									value="<%=d.getMobNo()%>" required name="mobno"
-									class="form-control">
-							</div>
-
-							<div class="mb-3">
-								<label class="form-label">Password</label> <input required
-									value="<%=d.getPassword()%>" name="password" type="text"
-									class="form-control">
-							</div>
-							<input type="hidden" name="id" value="<%=d.getId()%>">
-
-							<button type="submit" class="btn btn-primary col-md-12">Update</button>
-						</form>
+							<form action="../updateDoctor" method="post">
+								<div class="row g-3">
+									<div class="col-md-6">
+										<label class="hms-label">Full Name</label>
+										<input type="text" required name="fullname" class="form-control hms-input"
+											value="<%=d.getFullName()%>">
+									</div>
+									<div class="col-md-6">
+										<label class="hms-label">Date of Birth</label>
+										<input type="date" value="<%=d.getDob()%>" required name="dob"
+											class="form-control hms-input">
+									</div>
+									<div class="col-md-6">
+										<label class="hms-label">Qualification</label>
+										<input required value="<%=d.getQualification()%>" name="qualification"
+											type="text" class="form-control hms-input">
+									</div>
+									<div class="col-md-6">
+										<label class="hms-label">Specialist</label>
+										<select name="spec" required class="form-control hms-input">
+											<option><%=d.getSpecialist()%></option>
+											<%
+											SpecialistDao dao = new SpecialistDao(DBConnect.getConn());
+											List<Specalist> list = dao.getAllSpecialist();
+											for (Specalist s : list) {
+											%>
+											<option><%=s.getSpecialistName()%></option>
+											<%
+											}
+											%>
+										</select>
+									</div>
+									<div class="col-md-6">
+										<label class="hms-label">Email</label>
+										<input type="email" value="<%=d.getEmail()%>" required name="email"
+											class="form-control hms-input">
+									</div>
+									<div class="col-md-6">
+										<label class="hms-label">Mobile Number</label>
+										<input type="text" value="<%=d.getMobNo()%>" required name="mobno"
+											class="form-control hms-input">
+									</div>
+									<div class="col-md-12">
+										<label class="hms-label">Password</label>
+										<input required value="<%=d.getPassword()%>" name="password"
+											type="password" class="form-control hms-input">
+									</div>
+									<input type="hidden" name="id" value="<%=d.getId()%>">
+									<div class="col-12 text-center mt-3">
+										<button type="submit" class="hms-btn hms-btn-primary hms-btn-lg">
+											<i class="fas fa-save"></i> Update Doctor
+										</button>
+										<a href="view_doctor.jsp" class="hms-btn hms-btn-outline ms-2">
+											<i class="fas fa-arrow-left"></i> Cancel
+										</a>
+									</div>
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
-
-
-
-
 		</div>
 	</div>
 </body>

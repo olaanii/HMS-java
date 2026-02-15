@@ -1,127 +1,114 @@
 <%@page import="com.db.DBConnect"%>
 <%@page import="com.dao.DoctorDao"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page isELIgnored="false"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard - Healthcare HMS</title>
 <%@include file="../component/allcss.jsp"%>
-<style type="text/css">
-.paint-card {
-	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-}
-</style>
 </head>
 <body>
 	<%@include file="navbar.jsp"%>
 
-	<c:if test="${ empty adminObj }">
+	<c:if test="${empty adminObj}">
 		<c:redirect url="../admin_login.jsp"></c:redirect>
 	</c:if>
 
-	<div class="container p-5">
-		<p class="text-center fs-3">Admin Dashboard</p>
-		<c:if test="${not empty errorMsg}">
-			<p class="fs-3 text-center text-danger">${errorMsg}</p>
-			<c:remove var="errorMsg" scope="session" />
-		</c:if>
-		<c:if test="${not empty succMsg}">
-			<div class="fs-3 text-center text-success" role="alert">${succMsg}</div>
-			<c:remove var="succMsg" scope="session" />
-		</c:if>
-		<%
-		DoctorDao dao = new DoctorDao(DBConnect.getConn());
-		%>
-		<div class="row">
-			<div class="col-md-4">
-				<div class="card paint-card">
-					<div class="card-body text-center text-success">
-						<i class="fas fa-user-md fa-3x"></i><br>
-						<p class="fs-4 text-center">
-							Doctor <br><%=dao.countDoctor()%>
-						</p>
+	<div class="hms-dashboard">
+		<div class="container-fluid px-4">
+			<div class="hms-dashboard-header">
+				<h4 class="hms-page-title">Admin Dashboard</h4>
+				<p class="text-muted mb-0">Overview of your hospital management system</p>
+			</div>
+
+			<c:if test="${not empty errorMsg}">
+				<div class="hms-alert hms-alert-danger">${errorMsg}</div>
+				<c:remove var="errorMsg" scope="session" />
+			</c:if>
+			<c:if test="${not empty succMsg}">
+				<div class="hms-alert hms-alert-success">${succMsg}</div>
+				<c:remove var="succMsg" scope="session" />
+			</c:if>
+
+			<%
+			DoctorDao dao = new DoctorDao(DBConnect.getConn());
+			%>
+
+			<!-- Stat Cards -->
+			<div class="row g-4 mb-4">
+				<div class="col-xl-3 col-md-6">
+					<div class="hms-stat-card stat-green">
+						<div class="stat-icon">
+							<i class="fas fa-user-md"></i>
+						</div>
+						<div class="stat-number"><%=dao.countDoctor()%></div>
+						<div class="stat-label">Doctors</div>
+					</div>
+				</div>
+				<div class="col-xl-3 col-md-6">
+					<div class="hms-stat-card stat-blue">
+						<div class="stat-icon">
+							<i class="fas fa-users"></i>
+						</div>
+						<div class="stat-number"><%=dao.countUSer()%></div>
+						<div class="stat-label">Users</div>
+					</div>
+				</div>
+				<div class="col-xl-3 col-md-6">
+					<div class="hms-stat-card stat-amber">
+						<div class="stat-icon">
+							<i class="fas fa-calendar-check"></i>
+						</div>
+						<div class="stat-number"><%=dao.countAppointment()%></div>
+						<div class="stat-label">Appointments</div>
+					</div>
+				</div>
+				<div class="col-xl-3 col-md-6">
+					<div class="hms-stat-card stat-purple" style="cursor:pointer"
+						data-bs-toggle="modal" data-bs-target="#specialistModal">
+						<div class="stat-icon">
+							<i class="fas fa-stethoscope"></i>
+						</div>
+						<div class="stat-number"><%=dao.countSpecialist()%></div>
+						<div class="stat-label">Specialists <small class="text-muted">(click to add)</small></div>
 					</div>
 				</div>
 			</div>
-
-
-
-			<div class="col-md-4">
-				<div class="card paint-card">
-					<div class="card-body text-center text-success">
-						<i class="fas fa-user-circle fa-3x"></i><br>
-						<p class="fs-4 text-center">
-							User <br><%=dao.countUSer()%>
-						</p>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="card paint-card">
-					<div class="card-body text-center text-success">
-						<i class="far fa-calendar-check fa-3x"></i><br>
-						<p class="fs-4 text-center">
-							Total Appointment <br><%=dao.countAppointment()%>
-						</p>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-4 mt-2">
-
-				<div class="card paint-card " data-bs-toggle="modal"
-					data-bs-target="#exampleModal">
-					<div class="card-body text-center text-success">
-						<i class="far fa-calendar-check fa-3x"></i><br>
-						<p class="fs-4 text-center">
-							Specialist <br><%=dao.countSpecialist()%>
-						</p>
-					</div>
-				</div>
-
-			</div>
-
 		</div>
 	</div>
 
-
-
-	<!-- Modal -->
-	<div class="modal fade" id="exampleModal" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
+	<!-- Add Specialist Modal -->
+	<div class="modal fade" id="specialistModal" tabindex="-1" aria-labelledby="specialistModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<h5 class="modal-title" id="specialistModalLabel">
+						<i class="fas fa-plus-circle me-2 text-primary"></i> Add Specialist
+					</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<form action="../addSpecialist" method="post">
-
-						<div class="form-group">
-							<label>Enter Specialist Name</label> <input type="text"
-								name="specName" class="form-control">
+						<div class="mb-3">
+							<label class="hms-label">Specialist Name</label>
+							<input type="text" name="specName" class="form-control hms-input"
+								placeholder="e.g. Cardiologist, Neurologist..." required>
 						</div>
-						<div class="text-center mt-3">
-							<button type="submit" class="btn btn-primary">Add</button>
+						<div class="text-center">
+							<button type="submit" class="hms-btn hms-btn-primary">
+								<i class="fas fa-plus"></i> Add Specialist
+							</button>
 						</div>
-
 					</form>
-
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">Close</button>
-
+					<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
 	</div>
-
-
 </body>
 </html>

@@ -4,83 +4,88 @@
 <%@page import="java.util.List"%>
 <%@page import="com.db.DBConnect"%>
 <%@page import="com.dao.SpecialistDao"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page isELIgnored="false"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>View Doctors - Healthcare HMS</title>
 <%@include file="../component/allcss.jsp"%>
-<style type="text/css">
-.paint-card {
-	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-}
-</style>
 </head>
 <body>
 	<%@include file="navbar.jsp"%>
-	<div class="container-fluid p-3">
-		<div class="row">
 
+	<c:if test="${empty adminObj}">
+		<c:redirect url="../admin_login.jsp"></c:redirect>
+	</c:if>
 
-			<div class="col-md-12">
-				<div class="card paint-card">
-					<div class="card-body">
-						<p class="fs-3 text-center">Doctor Details</p>
-						<c:if test="${not empty errorMsg}">
-							<p class="fs-3 text-center text-danger">${errorMsg}</p>
-							<c:remove var="errorMsg" scope="session" />
-						</c:if>
-						<c:if test="${not empty succMsg}">
-							<div class="fs-3 text-center text-success" role="alert">${succMsg}</div>
-							<c:remove var="succMsg" scope="session" />
-						</c:if>
-						<table class="table">
-							<thead>
-								<tr>
-									<th scope="col">Full Name</th>
-									<th scope="col">DOB</th>
-									<th scope="col">Qualification</th>
-									<th scope="col">Specialist</th>
-									<th scope="col">Email</th>
-									<th scope="col">Mob No</th>
-									<th scope="col">Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<%
-								DoctorDao dao2 = new DoctorDao(DBConnect.getConn());
-								List<Doctor> list2 = dao2.getAllDoctor();
-								for (Doctor d : list2) {
-								%>
-								<tr>
-									<td><%=d.getFullName()%></td>
-									<td><%=d.getDob()%></td>
-									<td><%=d.getQualification()%></td>
-									<td><%=d.getSpecialist()%></td>
-									<td><%=d.getEmail()%></td>
-									<td><%=d.getMobNo()%></td>
-									<td><a href="edit_doctor.jsp?id=<%=d.getId()%>"
-										class="btn btn-sm btn-primary">Edit</a> 
-										
-										<a
-										href="../deleteDoctor?id=<%=d.getId()%>"
-										class="btn btn-sm btn-danger">Delete</a></td>
-								</tr>
-								<%
-								}
-								%>
-
-
-
-							</tbody>
-						</table>
-
-					</div>
-				</div>
+	<div class="hms-content">
+		<div class="container-fluid px-4">
+			<div class="hms-dashboard-header">
+				<h4 class="hms-page-title"><i class="fas fa-users me-2"></i> Doctor Directory</h4>
+				<p class="text-muted mb-0">Manage all registered doctors</p>
 			</div>
 
+			<c:if test="${not empty errorMsg}">
+				<div class="hms-alert hms-alert-danger">${errorMsg}</div>
+				<c:remove var="errorMsg" scope="session" />
+			</c:if>
+			<c:if test="${not empty succMsg}">
+				<div class="hms-alert hms-alert-success">${succMsg}</div>
+				<c:remove var="succMsg" scope="session" />
+			</c:if>
+
+			<div class="hms-table-wrapper">
+				<div class="table-header d-flex justify-content-between align-items-center">
+					<h5><i class="fas fa-user-md me-2"></i> All Doctors</h5>
+					<a href="doctor.jsp" class="hms-btn hms-btn-primary hms-btn-sm">
+						<i class="fas fa-plus"></i> Add New
+					</a>
+				</div>
+				<div class="table-responsive">
+					<table class="table hms-table">
+						<thead>
+							<tr>
+								<th>Full Name</th>
+								<th>DOB</th>
+								<th>Qualification</th>
+								<th>Specialist</th>
+								<th>Email</th>
+								<th>Mobile</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<%
+							DoctorDao dao2 = new DoctorDao(DBConnect.getConn());
+							List<Doctor> list2 = dao2.getAllDoctor();
+							for (Doctor d : list2) {
+							%>
+							<tr>
+								<td><strong><%=d.getFullName()%></strong></td>
+								<td><%=d.getDob()%></td>
+								<td><%=d.getQualification()%></td>
+								<td><span class="hms-badge hms-badge-completed"><%=d.getSpecialist()%></span></td>
+								<td><%=d.getEmail()%></td>
+								<td><%=d.getMobNo()%></td>
+								<td>
+									<a href="edit_doctor.jsp?id=<%=d.getId()%>" class="hms-action-btn hms-action-edit">
+										<i class="fas fa-edit"></i> Edit
+									</a>
+									<a href="../deleteDoctor?id=<%=d.getId()%>" class="hms-action-btn hms-action-delete">
+										<i class="fas fa-trash"></i> Delete
+									</a>
+								</td>
+							</tr>
+							<%
+							}
+							%>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

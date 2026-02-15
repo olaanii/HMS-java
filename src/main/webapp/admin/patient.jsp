@@ -4,69 +4,88 @@
 <%@page import="java.util.List"%>
 <%@page import="com.db.DBConnect"%>
 <%@page import="com.dao.AppointmentDAO"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page isELIgnored="false"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patients - Healthcare HMS</title>
 <%@include file="../component/allcss.jsp"%>
-<style type="text/css">
-.paint-card {
-	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-}
-</style>
 </head>
 <body>
 	<%@include file="navbar.jsp"%>
-	<div class="col-md-12">
-		<div class="card paint-card">
-			<div class="card-body">
-				<p class="fs-3 text-center">Patient Details</p>
-				<table class="table">
-					<thead>
-						<tr>
-							<th scope="col">Full Name</th>
-							<th scope="col">Gender</th>
-							<th scope="col">Age</th>
-							<th scope="col">Appointment</th>
-							<th scope="col">Email</th>
-							<th scope="col">Mob No</th>
-							<th scope="col">Diseases</th>
-							<th scope="col">Doctor Name</th>
-							<th scope="col">Address</th>
-							<th scope="col">Status</th>
-						</tr>
-					</thead>
-					<tbody>
-						<%
-						AppointmentDAO dao = new AppointmentDAO(DBConnect.getConn());
-						DoctorDao dao2 = new DoctorDao(DBConnect.getConn());
-						List<Appointment> list = dao.getAllAppointment();
-						for (Appointment ap : list) {
-							Doctor d = dao2.getDoctorById(ap.getDoctorId());
-						%>
-						<tr>
-							<th><%=ap.getFullName()%></th>
-							<td><%=ap.getGender()%></td>
-							<td><%=ap.getAge()%></td>
-							<td><%=ap.getAppoinDate()%></td>
-							<td><%=ap.getEmail()%></td>
-							<td><%=ap.getPhNo()%></td>
-							<td><%=ap.getDiseases()%></td>
-							<td><%=d.getFullName()%></td>
-							<td><%=ap.getAddress()%></td>
-							<td><%=ap.getStatus()%></td>
-						</tr>
-						<%
-						}
-						%>
 
+	<c:if test="${empty adminObj}">
+		<c:redirect url="../admin_login.jsp"></c:redirect>
+	</c:if>
 
-					</tbody>
-				</table>
+	<div class="hms-content">
+		<div class="container-fluid px-4">
+			<div class="hms-dashboard-header">
+				<h4 class="hms-page-title"><i class="fas fa-procedures me-2"></i> Patient Records</h4>
+				<p class="text-muted mb-0">View all patient appointments and records</p>
+			</div>
 
+			<div class="hms-table-wrapper">
+				<div class="table-header">
+					<h5><i class="fas fa-clipboard-list me-2"></i> All Patient Details</h5>
+				</div>
+				<div class="table-responsive">
+					<table class="table hms-table">
+						<thead>
+							<tr>
+								<th>Full Name</th>
+								<th>Gender</th>
+								<th>Age</th>
+								<th>Appointment</th>
+								<th>Email</th>
+								<th>Mobile</th>
+								<th>Diseases</th>
+								<th>Doctor</th>
+								<th>Address</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<%
+							AppointmentDAO dao = new AppointmentDAO(DBConnect.getConn());
+							DoctorDao dao2 = new DoctorDao(DBConnect.getConn());
+							List<Appointment> list = dao.getAllAppointment();
+							for (Appointment ap : list) {
+								Doctor d = dao2.getDoctorById(ap.getDoctorId());
+							%>
+							<tr>
+								<td><strong><%=ap.getFullName()%></strong></td>
+								<td><%=ap.getGender()%></td>
+								<td><%=ap.getAge()%></td>
+								<td><%=ap.getAppoinDate()%></td>
+								<td><%=ap.getEmail()%></td>
+								<td><%=ap.getPhNo()%></td>
+								<td><%=ap.getDiseases()%></td>
+								<td><%=d != null ? d.getFullName() : "N/A"%></td>
+								<td><%=ap.getAddress()%></td>
+								<td>
+									<%
+									if ("Pending".equals(ap.getStatus())) {
+									%>
+									<span class="hms-badge hms-badge-pending"><i class="fas fa-clock me-1"></i> Pending</span>
+									<%
+									} else {
+									%>
+									<span class="hms-badge hms-badge-completed"><i class="fas fa-check me-1"></i> <%=ap.getStatus()%></span>
+									<%
+									}
+									%>
+								</td>
+							</tr>
+							<%
+							}
+							%>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -1,175 +1,146 @@
 <%@page import="com.db.DBConnect"%>
 <%@page import="java.sql.Connection"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="ISO-8859-1">
-<title>Index Page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Healthcare - Hospital Management System</title>
 <%@include file="component/allcss.jsp"%>
-
-<style type="text/css">
-.paint-card {
-	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-}
-</style>
-
-
 </head>
 <body>
 	<%@include file="component/navbar.jsp"%>
-	
-    <div class="p-3 mb-2 bg-info text-dark">
-        <div class="p-3 mb-2 bg-warning.bg-gradient text-dark">
-	<div id="carouselExampleIndicators" class="carousel slide"
-		data-bs-ride="carousel">
-            
-		<div class="carousel-indicators">
-			<button type="button" data-bs-target="#carouselExampleIndicators"
-				data-bs-slide-to="0" class="active" aria-current="true"
-				aria-label="Slide 1"></button>
-			<button type="button" data-bs-target="#carouselExampleIndicators"
-				data-bs-slide-to="1" aria-label="Slide 2"></button>
-			<button type="button" data-bs-target="#carouselExampleIndicators"
-				data-bs-slide-to="2" aria-label="Slide 3"></button>
-		</div>
+
+	<!-- Hero Carousel -->
+	<section class="hms-hero">
+		<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+			<div class="carousel-indicators">
+				<button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+				<button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+				<button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+			</div>
 		<div class="carousel-inner">
 			<div class="carousel-item active">
-				<img src="img/hos.png" class="d-block w-100" alt="..."
-					height="400px">
+				<img src="img/hero-1.jpg" class="d-block w-100" alt="Modern Hospital Building">
 			</div>
 			<div class="carousel-item">
-				<img src="img/hos2.jpg" class="d-block w-100" alt="..."
-					height="400px">
+				<img src="img/hero-2.jpg" class="d-block w-100" alt="Medical Professionals">
 			</div>
 			<div class="carousel-item">
-				<img src="img/hos3.jpg" class="d-block w-100" alt="..."
-					height="400px">
+				<img src="img/hero-3.jpg" class="d-block w-100" alt="Advanced Medical Technology">
 			</div>
 		</div>
-		<button class="carousel-control-prev" type="button"
-			data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-			<span class="carousel-control-prev-icon" aria-hidden="true"></span> <span
-				class="visually-hidden">Previous</span>
-		</button>
-		<button class="carousel-control-next" type="button"
-			data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-			<span class="carousel-control-next-icon" aria-hidden="true"></span> <span
-				class="visually-hidden">Next</span>
-		</button>
-            </div>
-	</div>
-
-	<div class="container p-3">
-            <div class="p-3 mb-2 bg-warning.bg-gradient text-dark">
-		<p class="text-center fs-2 ">Key Features of our HC system</p>
-
-		<div class="row">
-			<div class="col-md-8 p-5">
-				<div class="row">
-					<div class="col-md-6">
-						<div class="card paint-card">
-							<div class="card-body">
-								<p class="fs-5">100% Safety</p>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-									Voluptatem, inventore</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="card paint-card">
-							<div class="card-body">
-								<p class="fs-5">Clean Environment</p>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-									Voluptatem, inventore</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6 mt-2">
-						<div class="card paint-card">
-							<div class="card-body">
-								<p class="fs-5">Friendly Doctors</p>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-									Voluptatem, inventore</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6 mt-2">
-						<div class="card paint-card">
-							<div class="card-body">
-								<p class="fs-5">Medical Research</p>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-									Voluptatem, inventore</p>
-							</div>
-						</div>
-					</div>
-				</div>
+			<div class="hms-hero-overlay">
+				<h1>Your Health, Our Priority</h1>
+				<p>Trusted healthcare services with experienced medical professionals</p>
+				<a href="user_appointment.jsp" class="hms-btn hms-btn-primary hms-btn-lg">
+					<i class="fas fa-calendar-check"></i> Book Appointment
+				</a>
 			</div>
-
-			<div class="col-md-4">
-				<img class="d-block w-100 h-100" alt="" src="img/doct.jpg">
-			</div>
-
+			<button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
 		</div>
-            </div>
-	</div>
+	</section>
 
-	<hr>
-
-	<div class="container p-2">
-            <div class="p-3 mb-2 bg-warning.bg-gradient text-dark">
-		<p class="text-center fs-2 ">Our Team</p>
-		
-		<div class="row">
-			<div class="col-md-3">
-				<div class="card paint-card">
-					<div class="card-body text-center">
-						<img src="img/doc1.jpg" width="250px" height="300px">
-						<p class="fw-bold fs-5">Samuel Shelema</p>
-						<p class="fs-7">(CEO & Chairman)</p>
+	<!-- Key Features -->
+	<section class="py-5">
+		<div class="container">
+			<p class="hms-section-title">Key Features</p>
+			<p class="text-center text-muted mb-5">Why patients trust us for their healthcare needs</p>
+			<div class="row g-4">
+				<div class="col-lg-8">
+					<div class="row g-4">
+						<div class="col-md-6">
+							<div class="hms-feature-card">
+								<div class="feature-icon">
+									<i class="fas fa-shield-alt"></i>
+								</div>
+								<h5>100% Safety</h5>
+								<p>Committed to the highest standards of patient and staff safety with strict protocols and modern equipment.</p>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="hms-feature-card">
+								<div class="feature-icon">
+									<i class="fas fa-leaf"></i>
+								</div>
+								<h5>Clean Environment</h5>
+								<p>Maintain a hygienic and sanitized environment for optimal recovery and wellness of every patient.</p>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="hms-feature-card">
+								<div class="feature-icon">
+									<i class="fas fa-heart"></i>
+								</div>
+								<h5>Friendly Doctors</h5>
+								<p>Our compassionate staff and specialists are dedicated to providing personalized patient care.</p>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="hms-feature-card">
+								<div class="feature-icon">
+									<i class="fas fa-microscope"></i>
+								</div>
+								<h5>Medical Research</h5>
+								<p>Engaged in cutting-edge research to bring advanced treatments and innovative care solutions.</p>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-
-			<div class="col-md-3">
-				<div class="card paint-card">
-					<div class="card-body text-center">
-						<img src="img/doc2.jpg" width="250px" height="300px">
-						<p class="fw-bold fs-5">Dr.Hailmariyam Beka</p>
-						<p class="fs-7">(Chief Doctor)</p>
-					</div>
+				<div class="col-lg-4 d-flex">
+					<img class="hms-img-doctor w-100" alt="Doctor" src="img/doct.jpg"
+						style="object-fit:cover; min-height:100%; border-radius:var(--hms-radius-lg)">
 				</div>
 			</div>
-
-			<div class="col-md-3">
-				<div class="card paint-card">
-					<div class="card-body text-center">
-						<img src="img/doc3.jpg" width="250px" height="300px">
-						<p class="fw-bold fs-5">Dr. Netsanet Pawlos</p>
-						<p class="fs-7">(Chief Doctor)</p>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-3">
-				<div class="card paint-card">
-					<div class="card-body text-center">
-						<img src="img/doc4.jpg" width="250px" height="300px">
-						<p class="fw-bold fs-5">Dr. Fatiya Shemsu</p>
-						<p class="fs-7">(Chief Doctor)</p>
-					</div>
-				</div>
-			</div>
-
 		</div>
-            </div>
+	</section>
 
-	</div>
+	<!-- Our Team -->
+	<section class="pb-5">
+		<div class="container">
+			<p class="hms-section-title">Our Team</p>
+			<p class="text-center text-muted mb-5">Meet the experts behind our healthcare services</p>
+			<div class="row g-4">
+				<div class="col-lg-3 col-md-6">
+					<div class="hms-team-card">
+						<img src="img/doc1.jpg" class="team-avatar" alt="Samuel Shelema">
+						<h6>Samuel Shelema</h6>
+						<span class="team-role">CEO & Chairman</span>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="hms-team-card">
+						<img src="img/doc2.jpg" class="team-avatar" alt="Dr. Hailmariyam Beka">
+						<h6>Dr. Hailmariyam Beka</h6>
+						<span class="team-role">Chief Doctor</span>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="hms-team-card">
+						<img src="img/doc3.jpg" class="team-avatar" alt="Dr. Netsanet Pawlos">
+						<h6>Dr. Netsanet Pawlos</h6>
+						<span class="team-role">Chief Doctor</span>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="hms-team-card">
+						<img src="img/doc4.jpg" class="team-avatar" alt="Dr. Fatiya Shemsu">
+						<h6>Dr. Fatiya Shemsu</h6>
+						<span class="team-role">Chief Doctor</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
-    </div>
-
-<%@include file="component/footer.jsp" %>
-
+	<%@include file="component/footer.jsp"%>
 </body>
 </html>
